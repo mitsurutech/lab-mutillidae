@@ -1,0 +1,83 @@
+# Web application security with OWASP Mutillidae II, a PHP site that is insecure on purpose,
+# with its database and its directory (LDAP) server.
+#
+# Your copy of the site is the only thing you may attack, and it is the only thing you can
+# reach: this lab has no way out to the internet, so nothing you try can touch anybody
+# else's machine. Never point a tool at a site you do not own, in a lab or anywhere else.
+#
+# Press Open on the lab's page. The database is made for you, so there is nothing to set up
+# and the lab reports itself ready once you can use the site. Mutillidae has the OWASP Top
+# 10 and more, with hints on each page that the Toggle Hints link in its menu turns on and
+# off. It starts at security level 0; Toggle Security steps it to 1 and then 5, and doing
+# the same exercise again at each level shows what each fix changes. Sign in as admin with
+# the password adminpass for the pages that ask for an account.
+#
+# Hand in a screenshot of each exercise solved, with a paragraph saying what the weakness
+# is, the exact input you used and why it works, and how the code should have been written.
+#
+# Nothing is saved: stopping the lab and starting it again is a fresh Mutillidae, the same
+# as the site's own Reset DB.
+
+services:
+  database:
+    image: webpwnized/mutillidae:database-2.12.7@sha256:bd79b51b9a29eb852b2f85bed2629407df6355d7f729b66913e0abe1b7a99ed6
+    # The image sets the database's administrator password itself, and the site is written
+    # to use it. Nothing outside this copy can reach the database, so it is written down.
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 5s
+      retries: 60
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+
+  directory:
+    image: webpwnized/mutillidae:ldap-2.12.7@sha256:51d9e8c39aaa3f7670f52601d14bd6d30c2f83aabb390ad3b00484bbf8ce701e
+    # The directory the site's LDAP exercises read, named directory because the site's own
+    # settings say so. The check signs in as the directory's administrator, the base being
+    # hidden from an anonymous search.
+    healthcheck:
+      test: ["CMD", "ldapsearch", "-x", "-H", "ldap://127.0.0.1", "-D", "cn=admin,dc=mutillidae,dc=localhost", "-w", "mutillidae", "-b", "dc=mutillidae,dc=localhost", "-s", "base"]
+      interval: 3s
+      timeout: 5s
+      retries: 60
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  www:
+    image: webpwnized/mutillidae:www-2.12.7@sha256:71c1e63420311da0d4561a2592afdb1a12ac28c58d2307d3c0aa7844f9b30441
+    # Apache as the image starts it, with the site's own set-up page asked for beside it
+    # once the database is up (the site says it has no database until somebody does). A
+    # marker says the set-up finished and the healthcheck waits for the marker, so "healthy"
+    # means the site works.
+    entrypoint:
+      - sh
+      - -c
+      - |
+        (
+          until curl -s http://127.0.0.1/set-up-database.php | grep -q "Found 40 records"; do sleep 1; done
+          touch /tmp/ready
+        ) &
+        exec docker-php-entrypoint apache2-foreground
+    expose: ["80"]
+    depends_on:
+      database:
+        condition: service_healthy
+      directory:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/ready"]
+      interval: 3s
+      timeout: 3s
+      retries: 60
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    labels:
+      lab.title: OWASP Mutillidae II
+      lab.open: "80"
