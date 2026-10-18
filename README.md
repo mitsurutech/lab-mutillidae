@@ -1,5 +1,7 @@
 # OWASP Mutillidae II lab with Docker Compose: practise SQL injection, XSS and LDAP injection on a deliberately vulnerable PHP web application
 
+[English](README.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Español](README.es.md)
+
 [![check](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml/badge.svg)](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml)
 
 A ready-made **web application security lab** for classrooms, from the [MitsuruTech Learning Platform](https://mitsurutech.co.uk/learning), where schools and colleges give every student their own databases, containers and terminal in the browser. Each student gets their own copy of **OWASP Mutillidae II**, a PHP website that is insecure on purpose, with its **MariaDB database** and its **LDAP directory** already made, to practise **SQL injection, cross-site scripting, command injection, LDAP injection** and more across the OWASP Top 10, at security levels that show what each fix changes. They explain the flaw, and hand in evidence, with nothing installed and no risk to anybody else's machine.
@@ -91,7 +93,11 @@ test/check.sh
 
 [OWASP Mutillidae II](https://github.com/webpwnized/mutillidae) is GPL-3.0 licensed, with its [Docker images](https://github.com/webpwnized/mutillidae-docker) from the same project; the images also hold MariaDB (GPL-2.0), OpenLDAP (OpenLDAP Public License) and PHP, Apache, Debian and their other parts under their own licences. The images are `webpwnized/mutillidae:www-2.12.7`, `:database-2.12.7` and `:ldap-2.12.7`, each pinned by digest in `compose.yaml`.
 
-The compose file, the tests and this documentation are MIT licensed, see [LICENSE](LICENSE): copy it, change it, teach with it. The application inside is the licence of its own project, linked above.
+## Licence
+
+This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You may share it and adapt it for learning and teaching, if you credit Mitsuru Technologies Ltd, do not use it commercially, and share anything you make from it under the same licence. The full text is in the `LICENSE` file.
+
+The application inside keeps the licence of its own project, linked above.
 
 ## About
 
