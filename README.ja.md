@@ -1,6 +1,6 @@
 # Docker Compose で動く OWASP Mutillidae II ラボ：わざと脆弱にした PHP の Web アプリで SQL インジェクション、XSS、LDAP インジェクションを練習する
 
-[English](README.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Español](README.es.md)
+[English](README.md) | [Français](README.fr.md) | [Español](README.es.md) | [日本語](README.ja.md) | [Deutsch](README.de.md)
 
 [![check](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml/badge.svg)](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml)
 

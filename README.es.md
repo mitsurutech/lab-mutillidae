@@ -1,6 +1,6 @@
 # Laboratorio OWASP Mutillidae II con Docker Compose: practica inyección SQL, XSS e inyección LDAP en una aplicación web PHP vulnerable a propósito
 
-[English](README.md) | [Français](README.fr.md) | [日本語](README.ja.md) | [Español](README.es.md)
+[English](README.md) | [Français](README.fr.md) | [Español](README.es.md) | [日本語](README.ja.md) | [Deutsch](README.de.md)
 
 [![check](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml/badge.svg)](https://github.com/mitsurutech/lab-mutillidae/actions/workflows/check.yml)
 
